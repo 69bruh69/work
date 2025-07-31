@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>workout plans</title>
+
+    <!-- Cute cursive headline font -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <!-- Inter font for general text -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+    <!-- Link to your external CSS file -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Link to Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Link to Chart.js for graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/90 backdrop-blur-lg sticky top-0 z-50 shadow-md">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-extrabold text-gray-800 tracking-tight">me build muscle</h1>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#plan" class="nav-link text-gray-600 font-semibold pb-1">Your Plan</a>
+                <a href="#calorie-tracker" class="nav-link text-gray-600 font-semibold pb-1">Calorie Tracker</a>
+                <a href="#knowledge" class="nav-link text-gray-600 font-semibold pb-1">The Lowdown</a>
+                <a href="#faq" class="nav-link text-gray-600 font-semibold pb-1">FAQs</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 md:py-12">
+
+        <section id="hero" class="text-center py-12">
+            <h2 class="text-4xl md:text-6xl font-extrabold text-gray-800 mb-4 tracking-tighter">muscle sculpture</h2>
+            <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+                welcome and sybau to your comprehensive guide for building strength and muscle. options are me and morganmegan
+            </p>
+        </section>
+
+        <section id="plan" class="py-12">
+            <div class="main-card">
+                <h1 class="text-center">Workout or Die</h1> <!-- User's original title -->
+
+                <!-- ✧･ﾟ CUTE CORNER ･ﾟ✧ -->
+                <div class="cute-box">
+                    <img id="cute-img" alt="cute motivation">
+                    <p id="cute-quote"></p>
+                    <button id="cute-refresh" title="new cute!">⟳</button>
+                </div>
+
+                <div class="text-center mb-8">
+                    <h3 class="text-2xl font-bold mb-2 text-gray-800">choose ur training focus</h3>
+                    <p class="text-gray-600 max-w-2xl mx-auto">choose to be jr or mm</p>
+                </div>
+
+                <div class="flex justify-center space-x-4 mb-8">
+                    <button id="select-ppl" class="program-selector-button active px-6 py-3 rounded-lg shadow font-bold text-lg">JUNIOR </button>
+                    <button id="select-women-lowerbody" class="program-selector-button px-6 py-3 rounded-lg shadow font-bold text-lg">MM</button>
+                </div>
+
+                <div class="day-button-container" id="day-buttons-container">
+                    <!-- Day buttons will be dynamically loaded here -->
+                </div>
+
+                <div id="workout-display" class="bg-white p-6 md:p-8 rounded-xl shadow-lg min-h-[400px]">
+                    <!-- Workout details will be dynamically loaded here -->
+                </div>
+
+                <hr class="my-8 border-gray-200">
+
+                <section id="calorie-tracker">
+                    <h2 class="section-title text-center text-2xl font-bold mb-4">calorie tracker</h2>
+
+                    <!-- calorie goal -->
+                    <form id="goal-form" class="goal-row">
+                        <label class="font-semibold text-gray-700">Daily calorie goal:</label>
+                        <input id="goal-input" type="number" min="0" step="50" class="flex-grow">
+                        <button class="px-4 py-2 rounded-md font-semibold">Save</button>
+                    </form>
+
+                    <!-- daily tracker -->
+                    <h3 class="text-xl font-bold mt-6 mb-2 text-gray-800">Daily Calorie Tracker</h3>
+                    <div class="macro-row">
+                        <div><small class="text-gray-500">Goal</small><br><span id="goal-display">2500</span></div>
+                        <div><small class="text-gray-500">Consumed</small><br><span id="calories-consumed">0</span></div>
+                        <div><small class="text-gray-500">Remaining</small><br><span id="calories-remaining">2500</span></div>
+                    </div>
+                    <div class="progress-bg">
+                        <div id="progress-bar"></div>
+                    </div>
+                    <div class="macro-summary">
+                        Protein <span id="protein-total">0 g</span> •
+                        Carbs <span id="carbs-total">0 g</span> •
+                        Fat <span id="fat-total">0 g</span>
+                    </div>
+
+                    <!-- New LLM Feature: Meal Idea Generator -->
+                    <button id="generate-meal-idea" class="px-4 py-2 mt-4 bg-purple-600 text-white rounded-md font-semibold hover:bg-purple-700 transition duration-200 ease-in-out w-full">
+                        ✨ Get Meal Idea for Remaining Macros
+                    </button>
+                    <div id="meal-idea-output" class="mt-4 p-4 bg-purple-50 rounded-lg border border-purple-200 text-gray-700 hidden">
+                        <p class="font-semibold mb-2">Your Meal Idea:</p>
+                        <div id="meal-idea-content"></div>
+                    </div>
+
+
+                    <!-- food entry -->
+                    <form id="food-form" class="food-row">
+                        <input id="food-name" placeholder="e.g. 1 cup oatmeal" required class="flex-grow">
+                        <label class="manual-switch">
+                            <input id="manual-toggle" type="checkbox"><span>manual</span>
+                        </label>
+                        <div id="manual-fields" class="manual-fields">
+                            <input id="m-cal" type="number" placeholder="kcal">
+                            <input id="m-prot" type="number" placeholder="P" step="0.1">
+                            <input id="m-carb" type="number" placeholder="C" step="0.1">
+                            <input id="m-fat" type="number" placeholder="F" step="0.1">
+                        </div>
+                        <button class="px-4 py-2 rounded-md font-semibold">Add Food</button>
+                    </form>
+
+                    <h4 class="text-xl font-bold mt-6 mb-2 text-gray-800">Today’s Log:</h4>
+                    <ul id="food-log" class="space-y-2"></ul>
+
+                    <h3 class="text-xl font-bold mt-6 mb-2 text-gray-800">Weekly Calorie Progress</h3>
+                    <canvas id="weeklyChart" height="160"></canvas>
+                </section>
+            </div>
+        </section>
+
+        <hr class="my-16 border-gray-200">
+
+        <section id="knowledge" class="py-12">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-center mb-2 text-gray-800">The Lowdown: Your Knowledge Hub</h3>
+                <p class="text-center text-gray-600 max-w-3xl mx-auto">Building an amazing physique isn't just about what you do in the gym. It's about how you eat, how you recover, and how you think. This section is packed with all the insider info to make sure your efforts pay off big time. Dig in!</p>
+            </div>
+            <div class="space-y-4 max-w-4xl mx-auto">
+                
+                <div class="accordion-item bg-white rounded-lg shadow">
+                    <button class="accordion-button w-full flex justify-between items-center text-left p-5 font-semibold text-lg">
+                        <span>🍑 Glute Activation 101: Wake 'Em Up!</span>
+                        <svg class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-5 pt-0 text-gray-600 space-y-4">
+                            <p>Okay, real talk: if you're not feeling your glutes working, you're probably not *really* working your glutes. Our glutes can be a bit sleepy, especially if you sit a lot. So, before you even touch a heavy weight, you gotta wake those babies up! This is crucial for getting the most out of every leg and glute exercise.</p>
+                            <h4 class="font-bold text-gray-800">Why Bother?</h4>
+                            <ul class="list-disc list-inside ml-4 space-y-1">
+                                <li><strong>Better Muscle Activation:</strong> You'll actually feel your glutes doing the work, not just your quads or lower back.</li>
+                                <li><strong>Injury Prevention:</strong> Strong, active glutes help stabilize your hips and knees, protecting your joints.</li>
+                                <li><strong>Maximized Growth:</strong> When your glutes are firing, they'll grow faster and stronger.</li>
+                            </ul>
+                            <h4 class="font-bold text-gray-800 mt-4">Your Go-To Activation Drills (5-10 minutes before leg day):</h4>
+                            <ul class="list-disc list-inside ml-4 space-y-1">
+                                <li><strong>Banded Glute Bridges:</strong> Put a mini-band above your knees. Lie on your back, feet flat. Drive hips up, pushing knees out against the band. Squeeze those glutes hard at the top. 2-3 sets of 15-20 reps.</li>
+                                <li><strong>Clamshells:</strong> Lie on your side, knees bent, feet together. Keep feet together and open your top knee like a clamshell, pushing against a band if you have one. Focus on the side of your glute. 2-3 sets of 15-20 reps per side.</li>
+                                <li><strong>Banded Lateral Walks:</strong> Place a mini-band around your ankles or above your knees. Get into a slight squat stance, then take small, controlled steps sideways, keeping tension on the band. 2-3 sets of 10-15 steps each way.</li>
+                                <li><strong>Donkey Kicks/Fire Hydrants:</strong> On all fours, lift one leg back (donkey kick) or out to the side (fire hydrant), squeezing the glute at the top. Slow and controlled. 2-3 sets of 10-15 reps per leg.</li>
+                            </ul>
+                            <p class="mt-4">Do these until you feel a good burn in your glutes. That's how you know they're ready to work!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-white rounded-lg shadow">
+                    <button class="accordion-button w-full flex justify-between items-center text-left p-5 font-semibold text-lg">
+                        <span>💪 Training Principles: The Real Muscle Builders</span>
+                        <svg class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-5 pt-0 text-gray-600 space-y-4">
+                            <h4 class="font-bold text-gray-800">Progressive Overload: The Golden Rule</h4>
+                            <p>Listen up, this is the #1 secret to growing muscle. Your body is smart, and it only adapts if it's challenged. So, you gotta constantly make your workouts harder over time. This isn't just about throwing on more weight, though that's a big part of it. Think about it like this:</p>
+                            <ul class="list-disc list-inside ml-4 space-y-1">
+                                <li><strong>More Weight:</strong> When you can hit your target reps with good form, add a little more weight. Even 2.5 lbs (1.25 kg) makes a difference over time!</li>
+                                <li><strong>More Reps:</strong> Can't add weight yet? Try to squeeze out 1-2 more reps with the same weight.</li>
+                                <li><strong>More Sets:</strong> Sometimes, adding an extra set can boost your total volume and stimulate growth.</li>
+                                <li><strong>Less Rest:</strong> Doing the same work with shorter breaks makes it harder.</li>
+                                <li><strong>Better Form:</strong> Lifting the same weight with stricter, more controlled form is a huge win.</li>
+                                <li><strong>Increased Frequency:</strong> Hitting a muscle group more often (as in PPL) is a powerful form of overload.</li>
+                            </ul>
+                            <p class="mt-2">Always be chasing that little bit extra, safely!</p>
+                            <h4 class="font-bold text-gray-800">Reps in Reserve (RIR): How Hard Should You Go?</h4>
+                            <p>RIR is basically how many more reps you *could* have done before your form completely broke down. For most of your working sets, you want to be in the **0-2 RIR** range. That means you finish a set knowing you maybe had 0, 1, or 2 more reps left in the tank. This ensures you're pushing hard enough to stimulate growth without absolutely annihilating yourself every single set, which can lead to burnout or injury.</p>
+                            <h4 class="font-bold text-gray-800">Strategic Rest Times: Don't Just Scroll TikTok!</h4>
+                            <p>Your rest between sets matters! For big, compound lifts (like squats, deadlifts, hip thrusts), you need longer rest (3-5 minutes) to fully recover your strength and be able to hit those heavy weights again. For isolation exercises or higher rep work, 60-90 seconds might be enough to get that metabolic stress going. Don't just mindlessly scroll – use your rest to prepare for the next set!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-white rounded-lg shadow">
+                    <button class="accordion-button w-full flex justify-between items-center text-left p-5 font-semibold text-lg">
+                        <span>🍽️ Fueling Your Gains: Eating for a Stronger Lower Body</span>
+                        <svg class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-5 pt-0 text-gray-600 space-y-4">
+                            <p>You can train like a beast, but if your nutrition is off, you're leaving gains on the table. Think of food as the building blocks and fuel for your muscles. Here’s the lowdown:</p>
+                            <h4 class="font-bold text-gray-800">Calories: The Energy Equation</h4>
+                            <p>To build muscle, you generally need to be in a slight **caloric surplus** (eating a bit more than you burn). This gives your body the extra energy it needs for muscle repair and growth. If you're trying to recomp (build muscle, lose fat), you'll be closer to maintenance. If you're cutting, you'll be in a deficit, but still need enough fuel to perform and preserve muscle.</p>
+                            <h4 class="font-bold text-gray-800">Protein: Your Muscle's Best Friend</h4>
+                            <p>Seriously, don't skimp on protein. It's essential for repairing and building muscle tissue. Aim for **1.6-2.2 grams of protein per kilogram of body weight** daily (or roughly 0.7-1 gram per pound). Spread it out throughout the day. Think lean meats, poultry, fish, eggs, dairy, legumes, and protein supplements.</p>
+                            <h4 class="font-bold text-gray-800">Carbohydrates: Fuel for Performance</h4>
+                            <p>Carbs are your primary energy source for intense workouts. Don't fear them! They replenish glycogen stores in your muscles, which is crucial for strength and endurance. Focus on complex carbs like oats, rice, quinoa, potatoes, sweet potatoes, and whole grains. Timing your carbs around your workouts (before and after) can be beneficial.</p>
+                            <h4 class="font-bold text-gray-800">Fats: Hormones & Health</h4>
+                            <p>Healthy fats are vital for hormone production (including those important for muscle growth) and overall health. They also provide sustained energy. Include sources like avocados, nuts, seeds, olive oil, and fatty fish. Aim for around 0.8-1.2 grams of fat per kilogram of body weight.</p>
+                            <h4 class="font-bold text-gray-800">Hydration: Don't Be a Dried-Up Raisin</h4>
+                            <p>Water is often overlooked but it's HUGE. Even slight dehydration can mess with your performance, energy levels, and recovery. Drink water consistently throughout the day, especially before, during, and after your workouts. Aim for pale yellow urine as a sign you're properly hydrated.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-white rounded-lg shadow">
+                    <button class="accordion-button w-full flex justify-between items-center text-left p-5 font-semibold text-lg">
+                        <span>😴 Recovery & Sleep: Where the Magic Happens</span>
+                        <svg class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-5 pt-0 text-gray-600 space-y-4">
+                            <p>You break your muscles down in the gym, but they grow when you rest. Seriously, don't underestimate recovery. It's just as important as your workout!</p>
+                            <h4 class="font-bold text-gray-800">Sleep: Your #1 Recovery Tool</h4>
+                            <p>This is non-negotiable. Aim for **7-9 hours of quality, uninterrupted sleep** every single night. During deep sleep, your body releases growth hormone, repairs muscle tissue, and your central nervous system recovers. Skimp on sleep, and you're sabotaging your gains, your energy, and your mood. Make your bedroom a sleep sanctuary: dark, cool, quiet.</p>
+                            <h4 class="font-bold text-gray-800">Deload Weeks: Hit the Reset Button</h4>
+                            <p>Training hard consistently builds up fatigue. Every **6-8 weeks**, consider a deload week. This means significantly reducing your training volume (e.g., 50-60% of sets/reps) and/or intensity (e.g., 60-70% of weight) for one week. Deloads help manage accumulated fatigue, prevent overtraining, allow connective tissues to recover, and prepare your body for another productive training cycle. You'll come back feeling fresh and stronger!</p>
+                            <h4 class="font-bold text-gray-800">Active Recovery: Keep Moving (Lightly)</h4>
+                            <p>On rest days, light activity can actually help! Think a brisk walk, gentle stretching, foam rolling, or light cycling. This increases blood flow to sore muscles, helping to flush out waste products and bring in fresh nutrients, speeding up recovery. Just don't overdo it – this isn't another workout!</p>
+                            <h4 class="font-bold text-gray-800">Stretching & Mobility: Stay Supple</h4>
+                            <p>Regular stretching and mobility work (especially for hips, hamstrings, and ankles) can improve your range of motion, which means better form on your lifts and reduced risk of injury. Don't skip your cool-down stretches!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-white rounded-lg shadow">
+                    <button class="accordion-button w-full flex justify-between items-center text-left p-5 font-semibold text-lg">
+                        <span>🏃‍♀️ Cardio for Curves: Don't Kill Your Gains</span>
+                        <svg class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-5 pt-0 text-gray-600 space-y-4">
+                            <p>Cardio gets a bad rap in the muscle-building world, but it's not the enemy! It's actually super important for heart health, endurance, and can even help with fat loss. The trick is to use it smartly so it doesn't eat into your muscle gains.</p>
+                            <h4 class="font-bold text-gray-800">LISS (Low-Intensity Steady-State): Your Best Friend</h4>
+                            <p>This is your go-to for general fitness and fat loss without impacting your lifting. Think brisk walking, light cycling, or elliptical for **20-40 minutes, 2-3 times a week** on your rest days or after your lifting sessions. It's easy on your joints, helps with recovery, and burns calories without being too taxing.</p>
+                            <h4 class="font-bold text-gray-800">HIIT (High-Intensity Interval Training): Use Sparingly</h4>
+                            <p>HIIT (short bursts of intense effort followed by brief rest) is great for fitness and fat burning, but it's also very taxing on your body. If your main goal is muscle growth, use HIIT sparingly, maybe **1-2 times a week** on non-lifting days. Examples: sprints, burpees, battle ropes. Listen to your body – if it's impacting your lifts, cut back.</p>
+                            <h4 class="font-bold text-gray-800">Timing Matters</h4>
+                            <p>Try to separate your intense cardio from your heavy leg days. If you do cardio before lifting, keep it short (5-10 min warm-up). If after, keep it moderate. On rest days, you have more flexibility.</p>
+                            <p class="mt-2">The goal is to use cardio to support your overall health and fat loss goals without compromising your strength and muscle gains. It's a tool, not the main event!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-white rounded-lg shadow">
+                    <button class="accordion-button w-full flex justify-between items-center text-left p-5 font-semibold text-lg">
+                        <span>📈 Tracking Your Progress: Don't Just Guess!</span>
+                        <svg class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-5 pt-0 text-gray-600 space-y-4">
+                            <p>If you're not tracking, you're just guessing. To truly see progress and apply progressive overload, you need to know what you did last time. This is how you ensure you're always pushing a little harder.</p>
+                            <h4 class="font-bold text-gray-800">Workout Log: Your Gym Bible</h4>
+                            <p>Keep a notebook or use a fitness app. For every exercise, record:</p>
+                            <ul class="list-disc list-inside ml-4 space-y-1">
+                                <li><strong>Date:</strong> Obvious, but important!</li>
+                                <li><strong>Exercise:</strong> What you did.</li>
+                                <li><strong>Weight:</strong> How much you lifted.</li>
+                                <li><strong>Sets & Reps:</strong> How many you did.</li>
+                                <li><strong>Notes:</strong> How you felt, if it was easy/hard, any form issues, RIR.</li>
+                            </ul>
+                            <p class="mt-2">Before each workout, check your log from the previous session for that muscle group. Aim to beat it (more weight, more reps, better form)!</p>
+                            <h4 class="font-bold text-gray-800">Body Measurements & Photos: The Real Story</h4>
+                            <p>The scale doesn't tell the whole story, especially if you're recompositioning. Take progress photos (front, back, side) every 4-6 weeks in the same lighting and clothes. Measure your waist, hips, thighs, and arms. These will show you the changes in your body composition even if the scale doesn't budge.</p>
+                            <h4 class="font-bold text-gray-800">How You Feel & Look: The Mirror Test</h4>
+                            <p>Ultimately, how you feel, your energy levels, and how you look in the mirror are huge indicators. Are your clothes fitting better? Do you feel stronger? Are you recovering well? These subjective measures are just as important as the numbers.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-white rounded-lg shadow">
+                    <button class="accordion-button w-full flex justify-between items-center text-left p-5 font-semibold text-lg">
+                        <span>🔪 All About Cutting (Fat Loss)</span>
+                        <svg class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-5 pt-0 text-gray-600 space-y-4">
+                            <p>Alright, so you wanna get lean? This is where the magic happens, but it's also where you gotta be smart. **Cutting** is all about losing fat while trying your best to keep that hard-earned muscle. It's a delicate balance, but totally doable.</p>
+                            <h4 class="font-bold text-gray-800">The Calorie Deficit is King (or Queen)</h4>
+                            <p>You gotta eat less than you burn, simple as that. Start with a small deficit, like 300-500 calories below your maintenance. Don't go crazy and starve yourself – that's how you lose muscle and feel miserable. Slow and steady wins the race here.</p>
+                            <h4 class="font-bold text-gray-800">Keep That Protein High!</h4>
+                            <p>This is super important when you're cutting. Protein helps you hold onto your muscle mass and keeps you feeling full. Aim for the higher end of the protein recommendations (like 2.0-2.2g per kg of body weight). Think lean meats, eggs, Greek yogurt, protein shakes – load 'em up!</p>
+                            <h4 class="font-bold text-gray-800">Don't Ditch the Weights</h4>
+                            <p>You might be tempted to just do a ton of cardio, but keep lifting heavy! Your body needs that signal to hold onto muscle. Aim to maintain your strength, even if you can't add weight. Focus on good form and hitting your reps. If you lose a little strength, don't sweat it, it'll come back when you're eating more.</p>
+                            <h4 class="font-bold text-gray-800">Cardio: Your Secret Weapon (But Don't Overdo It)</h4>
+                            <p>Cardio helps burn extra calories, but it's a tool, not the whole strategy. Start with some low-intensity steady-state (LISS) cardio, like brisk walking, for 20-30 minutes a few times a week. If you need more, gradually add it in. Too much cardio can make you super hungry and tired, and potentially eat into your muscle.</p>
+                            <h4 class="font-bold text-gray-800">Listen to Your Body</h4>
+                            <p>You're gonna be a bit hungrier and have less energy, that's normal. But if you're constantly drained, irritable, or your sleep is messed up, you might be going too hard. Take a diet break for a few days at maintenance calories if you need to reset. This ain't a sprint, it's a marathon to looking shredded!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-white rounded-lg shadow">
+                    <button class="accordion-button w-full flex justify-between items-center text-left p-5 font-semibold text-lg">
+                        <span>✨ Recomposition (Building & Losing Simultaneously)</span>
+                        <svg class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-5 pt-0 text-gray-600 space-y-4">
+                            <p>Okay, so **recomposition** is kinda like having your cake and eating it too, but it's a slow bake. It means trying to build muscle and lose fat at the same time. It's harder and slower than a dedicated bulk or cut, but it's totally possible, especially if you're newer to lifting, coming back after a break, or have a higher body fat percentage.</p>
+                            <h4 class="font-bold text-gray-800">Calories: Just Right</h4>
+                            <p>This is the trickiest part. You want to be at or just slightly below your maintenance calories. We're talking like a 0-200 calorie deficit, or sometimes even just maintenance. The idea is to give your body enough energy to build muscle, but not so much that it stores a bunch of fat.</p>
+                            <h4 class="font-bold text-gray-800">Protein, Protein, Protein!</h4>
+                            <p>Just like cutting, high protein is your best friend here. It's crucial for muscle protein synthesis (building muscle) and helps with satiety. Stick to that 1.8-2.2g per kg of body weight. Seriously, don't skimp on the protein.</p>
+                            <h4 class="font-bold text-gray-800">Lift Heavy, Train Hard</h4>
+                            <p>Your training needs to be on point. You still need to apply **progressive overload** to tell your muscles they need to grow. The PPL split is awesome for this because of the high frequency. Focus on getting stronger in your lifts.</p>
+                            <h4 class="font-bold text-gray-800">Patience, My Friend</h4>
+                            <p>This isn't a quick fix. You won't see dramatic changes on the scale because you're losing fat *and* gaining muscle. The best way to track progress is with body measurements, photos, and how your clothes fit. The scale might not move much, but your body shape will change.</p>
+                            <h4 class="font-bold text-gray-800">Who's It Best For?</h4>
+                            <ul class="list-disc list-inside ml-4 space-y-1">
+                                <li><strong>Beginners:</strong> "Noob gains" are real, and beginners can often recomp easily.</li>
+                                <li><strong>People returning to training:</strong> If you've lifted before and are getting back into it, your body remembers!</li>
+                                <li><strong>Individuals with higher body fat:</strong> More fat to lose means more potential energy to fuel muscle growth.</li>
+                                <li><strong>Those who prefer a slower, steadier approach:</strong> If you hate strict bulking or cutting, recomping might be your jam.</li>
+                            </ul>
+                            <p class="mt-2">It's a marathon, not a sprint. Be consistent, be patient, and trust the process!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-white rounded-lg shadow">
+                    <button class="accordion-button w-full flex justify-between items-center text-left p-5 font-semibold text-lg">
+                        <span>📈 Tracking Your Progress: Don't Just Guess!</span>
+                        <svg class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-5 pt-0 text-gray-600 space-y-4">
+                            <p>If you're not tracking, you're just guessing. To truly see progress and apply progressive overload, you need to know what you did last time. This is how you ensure you're always pushing a little harder.</p>
+                            <h4 class="font-bold text-gray-800">Workout Log: Your Gym Bible</h4>
+                            <p>Keep a notebook or use a fitness app. For every exercise, record:</p>
+                            <ul class="list-disc list-inside ml-4 space-y-1">
+                                <li><strong>Date:</strong> Obvious, but important!</li>
+                                <li><strong>Exercise:</strong> What you did.</li>
+                                <li><strong>Weight:</strong> How much you lifted.</li>
+                                <li><strong>Sets & Reps:</strong> How many you did.</li>
+                                <li><strong>Notes:</strong> How you felt, if it was easy/hard, any form issues, RIR.</li>
+                            </ul>
+                            <p class="mt-2">Before each workout, check your log from the previous session for that muscle group. Aim to beat it (more weight, more reps, better form)!</p>
+                            <h4 class="font-bold text-gray-800">Body Measurements & Photos: The Real Story</h4>
+                            <p>The scale doesn't tell the whole story, especially if you're recompositioning. Take progress photos (front, back, side) every 4-6 weeks in the same lighting and clothes. Measure your waist, hips, thighs, and arms. These will show you the changes in your body composition even if the scale doesn't budge.</p>
+                            <h4 class="font-bold text-gray-800">How You Feel & Look: The Mirror Test</h4>
+                            <p>Ultimately, how you feel, your energy levels, and how you look in the mirror are huge indicators. Are your clothes fitting better? Do you feel stronger? Are you recovering well? These subjective measures are just as important as the numbers.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-white rounded-lg shadow">
+                    <button class="accordion-button w-full flex justify-between items-center text-left p-5 font-semibold text-lg">
+                        <span>🩹 Injury Prevention: Stay Safe, Stay Strong</span>
+                        <svg class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-5 pt-0 text-gray-600 space-y-4">
+                            <p>An injured lifter is a sad lifter. You can't make gains if you're sidelined! Prioritizing safety means you can train consistently for the long haul.</p>
+                            <h4 class="font-bold text-gray-800">Warm-Up Properly (Seriously!)</h4>
+                            <p>Don't skip your warm-up. It prepares your body for the work ahead, increases blood flow to muscles, and improves joint mobility. Dynamic stretches are key here.</p>
+                            <h4 class="font-bold text-gray-800">Master Form Before Weight</h4>
+                            <p>This is probably the biggest one. Ego lifting is the fastest way to get hurt. Learn the correct form for every exercise with light weight, then gradually increase the load. If your form breaks down, lighten the weight.</p>
+                            <h4 class="font-bold text-gray-800">Listen to Your Body</h4>
+                            <p>Pain is not gain. Soreness is normal, but sharp, persistent pain is a red flag. Don't push through it. Rest, recover, or modify the exercise. If pain persists, see a professional.</p>
+                            <h4 class="font-bold text-gray-800">Use Spotters & Safety Equipment</h4>
+                            <p>For heavy compound lifts, use a spotter or safety pins in a power rack. Don't be too proud to ask for a spot!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-white rounded-lg shadow">
+                    <button class="accordion-button w-full flex justify-between items-center text-left p-5 font-semibold text-lg">
+                        <span>🧠 Mindset & Consistency: The Unsung Heroes</span>
+                        <svg class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-5 pt-0 text-gray-600 space-y-4">
+                            <p>You can have the perfect plan, but if your head isn't in the game, it's all for nothing. Your mindset and consistency are absolutely critical for long-term success.</p>
+                            <h4 class="font-bold text-gray-800">Consistency Over Perfection</h4>
+                            <p>It's better to hit 3 good workouts a week consistently for months than 6 perfect workouts for one week and then burn out. Life happens, but showing up, even when you don't feel like it, is how you build habits and see results.</p>
+                            <h4 class="font-bold text-gray-800">Patience is a Virtue (Especially in Gains)</h4>
+                            <p>Muscle growth takes time. You won't see dramatic changes overnight. Trust the process, celebrate small wins (like an extra rep or a little more weight), and focus on the long game. The results will come.</p>
+                            <h4 class="font-bold text-gray-800">Set Realistic Goals</h4>
+                            <p>Don't compare your Chapter 1 to someone else's Chapter 20. Set achievable goals for *yourself*. Maybe it's hitting a certain weight on a lift, doing a certain number of reps, or seeing a specific change in your measurements. Small, consistent wins build momentum.</p>
+                            <h4 class="font-bold text-gray-800">Embrace the Process</h4>
+                            <p>Find joy in the training itself, the challenge, the feeling of getting stronger. It's not just about the end result; it's about the journey of becoming a stronger, more capable you.</p>
+                            <h4 class="font-bold text-gray-800">Celebrate Non-Scale Victories</h4>
+                            <p>Your clothes fit better? You have more energy? You can carry all your groceries in one trip? These are huge wins! Focus on how your body performs and how you feel, not just the number on the scale.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-white rounded-lg shadow">
+                    <button class="accordion-button w-full flex justify-between items-center text-left p-5 font-semibold text-lg">
+                        <span>💊 Supplements: The Icing on the Cake (Not the Cake)</span>
+                        <svg class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-5 pt-0 text-gray-600 space-y-4">
+                            <p>Supplements are exactly that: they *supplement* a solid diet and training plan. They're not magic pills, and you don't *need* them to make progress. But some can definitely help when everything else is dialed in.</p>
+                            <h4 class="font-bold text-gray-800">The "Big 3" (Actually Useful Ones):</h4>
+                            <ul class="list-disc list-inside ml-4 space-y-1">
+                                <li><strong>Protein Powder (Whey/Casein/Plant-based):</strong> Super convenient way to hit your protein targets, especially post-workout or when you're short on time.</li>
+                                <li><strong>Creatine Monohydrate:</strong> The most researched and effective supplement for strength and muscle gain. Helps with ATP production for explosive movements. Take 3-5g daily.</li>
+                                <li><strong>Multivitamin:</strong> A good "insurance policy" to cover any micronutrient gaps in your diet.</li>
+                            </ul>
+                            <h4 class="font-bold text-gray-800 mt-4">Other Potentially Useful Ones:</h4>
+                            <ul class="list-disc list-inside ml-4 space-y-1">
+                                <li><strong>Omega-3s (Fish Oil):</strong> Good for overall health, joint health, and reducing inflammation.</li>
+                                <li><strong>Vitamin D3:</strong> Many people are deficient, important for bone health, immune function, and hormone regulation.</li>
+                                <li><strong>Pre-Workout:</strong> Can give you a boost of energy and focus for your workouts, but not essential. Look for ones with caffeine, beta-alanine, citrulline malate.</li>
+                                <li><strong>BCAAs (Branched-Chain Amino Acids):</strong> Less crucial if you're hitting your protein targets, but some find them helpful for reducing muscle soreness.</li>
+                            </ul>
+                            <p class="mt-4">Always do your research, buy from reputable brands, and remember: food first, training second, supplements third!</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <hr class="my-16 border-gray-200">
+
+        <section id="faq" class="py-12">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-center mb-2 text-gray-800">FAQs: Quick Answers to Your Burning Questions</h3>
+                <p class="text-center text-gray-600 max-w-3xl mx-auto">Got more questions? We've got answers. Here are some common questions about training and this program.</p>
+            </div>
+            <div class="space-y-4 max-w-4xl mx-auto">
+                <div class="accordion-item bg-white rounded-lg shadow">
+                    <button class="accordion-button w-full flex justify-between items-center text-left p-5 font-semibold text-lg">
+                        <span>"Will I get too bulky?" (Women's Specific)</span>
+                        <svg class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-5 pt-0 text-gray-600">
+                            <p>Short answer: Highly unlikely! Women naturally have much lower testosterone levels than men, making it very difficult to build "bulky" muscle mass without specific interventions (which is not what this program is about). This program is designed for building strong, shapely, and athletic legs and glutes, enhancing your natural curves. You'll get stronger and more toned, not "bulky."</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item bg-white rounded-lg shadow">
+                    <button class="accordion-button w-full flex justify-between items-center text-left p-5 font-semibold text-lg">
+                        <span>"How long until I see results?"</span>
+                        <svg class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-5 pt-0 text-gray-600">
+                            <p>Patience is key! You might start feeling stronger within a few weeks. Visible changes in muscle shape and definition usually take 8-12 weeks of consistent effort (training, nutrition, recovery). Significant transformations can take 6 months to a year or more. Trust the process and stay consistent!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item bg-white rounded-lg shadow">
+                    <button class="accordion-button w-full flex justify-between items-center text-left p-5 font-semibold text-lg">
+                        <span>"Can I do this program if I'm a beginner?"</span>
+                        <svg class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-5 pt-0 text-gray-600">
+                            <p>Yes, absolutely! Both programs provide a solid framework. As a beginner, focus heavily on mastering form with lighter weights. Don't worry about hitting the exact RIR at first; just focus on controlled movements and feeling the right muscles. You can also start with fewer training days initially and gradually build up.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-white mt-16">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p>&copy; 2024 Ultimate Fitness Guides. All Rights Reserved.</p>
+            <p class="text-sm text-gray-400 mt-2">Designed for maximum growth and strength.</p>
+        </div>
+    </footer>
+
+    <!-- Message box for alerts -->
+    <div id="message-box" role="alert"></div>
+
+    <!-- Modal for LLM responses -->
+    <div id="llm-response-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h3 id="modal-title" class="text-xl font-bold mb-4 text-gray-800"></h3>
+            <div id="modal-loading-spinner" class="loading-spinner"></div>
+            <div id="modal-response-content" class="text-gray-700 prose max-w-none"></div>
+        </div>
+    </div>
+
+<!-- The script.js will be linked here -->
+<script src="script.js"></script>
+</body>
+</html>
