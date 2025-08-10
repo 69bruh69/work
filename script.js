@@ -1,159 +1,189 @@
-/* ─── global pastel-purple theme ───────────────────────── */
-:root {
-    --accent: #9d7dff;
-    --accent-dark: #7c5dff;
-    --bg: #f3f0ff;
-    --text: #333;
+/* ---------- helpers ---------- */
+const qs  = s => document.querySelector(s);
+const qsa = s => document.querySelectorAll(s);
+
+/* ---------- state ---------- */
+let currentDayIndex = 0; // 0 = Mon, 1 = Tue, etc.
+let currentProgramId = 'ppl';
+
+/* ---------- DOM elements ---------- */
+const dayButtonsContainer = qs('#day-buttons-container');
+const workoutDisplay = qs('#workout-display');
+const selectPplBtn = qs('#select-ppl');
+const selectMeganBtn = qs('#select-megan');
+const messageCloseBtn = qs('#message-close');
+
+/* ---------- Workout Programs Data ---------- */
+const workoutPrograms = {
+    'ppl': {
+        name: 'JUNIOR (Push/Pull/Legs)',
+        days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        plan: {
+            'Mon': 'Push',
+            'Tue': 'Pull',
+            'Wed': 'Legs',
+            'Thu': 'Push',
+            'Fri': 'Pull',
+            'Sat': 'Legs'
+        },
+        workouts: {
+            'Push': [
+                'Flat Barbell Bench Press (4x 8-12 reps)',
+                'Incline Dumbbell Press (3x 10-15 reps)',
+                'Cable Flys (3x 12-15 reps)',
+                'Seated Overhead Dumbbell Press (4x 8-12 reps)',
+                'Lateral Raises (3x 12-15 reps)',
+                'Tricep Pushdowns (3x 10-15 reps)',
+                'Overhead Tricep Extension (3x 12-15 reps)'
+            ],
+            'Pull': [
+                'Weighted Pull-ups (4x 6-10 reps)',
+                'Barbell Rows (3x 8-12 reps)',
+                'Lat Pulldowns (3x 10-15 reps)',
+                'Seated Cable Rows (3x 10-15 reps)',
+                'Barbell Bicep Curls (3x 12-15 reps)',
+                'Hammer Curls (3x 12-15 reps)',
+                'Face Pulls (3x 15-20 reps)'
+            ],
+            'Legs': [
+                'Barbell Squats (4x 6-10 reps)',
+                'Leg Press (3x 8-12 reps)',
+                'Romanian Deadlifts (3x 8-12 reps)',
+                'Leg Extensions (3x 12-15 reps)',
+                'Leg Curls (3x 12-15 reps)',
+                'Calf Raises (4x 15-20 reps)'
+            ]
+        }
+    },
+    'megan': {
+        name: 'MEGAN\'S WORKOUT',
+        days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        plan: {
+            'Mon': 'Glute & Ham Focus',
+            'Tue': 'Upper Body & Core',
+            'Wed': 'Quad & Glute Focus',
+            'Thu': 'Lower Body (Accessory)',
+            'Fri': 'Upper Body & Core',
+            'Sat': 'Full Lower Body (Volume)'
+        },
+        workouts: {
+            'Glute & Ham Focus': [
+                'Barbell Hip Thrust (4x 8-12 reps)',
+                'Romanian Deadlift (RDL) (3x 8-12 reps)',
+                'Cable Pull-Through (3x 12-15 reps)',
+                'Leg Curl (Seated or Lying) (3x 10-15 reps)',
+                'Glute Medius Kickback (Cable) (3x 15-20 reps)'
+            ],
+            'Upper Body & Core': [
+                'Dumbbell Bench Press (4x 8-12 reps)',
+                'Lat Pulldown (3x 10-15 reps)',
+                'Seated Dumbbell Shoulder Press (3x 10-15 reps)',
+                'Cable Row (3x 10-15 reps)',
+                'Bicep Curl (Dumbbell or Barbell) (3x 12-15 reps)',
+                'Triceps Pushdown (Rope) (3x 12-15 reps)',
+                'Plank (3x 45-60 sec hold)'
+            ],
+            'Quad & Glute Focus': [
+                'Barbell Back Squat (4x 6-10 reps)',
+                'Leg Press (3x 8-12 reps)',
+                'Walking Lunges (Dumbbell) (3x 10-12 reps per leg)',
+                'Leg Extension (3x 12-15 reps)',
+                'Cable Glute Kickback (3x 15-20 reps per leg)'
+            ],
+            'Lower Body (Accessory)': [
+                'Goblet Squat (3x 10-15 reps)',
+                'Single-Leg RDL (Dumbbell) (3x 10-12 reps per leg)',
+                'Hyperextension (Glute Focused) (3x 12-15 reps)',
+                'Seated Hip Abduction (Machine) (3x 15-20 reps)',
+                'Standing Calf Raise (4x 15-20 reps)'
+            ],
+            'Full Lower Body (Volume)': [
+                'Hack Squat (Machine) (4x 10-15 reps)',
+                'Glute Ham Raise (GHR) or Nordic Hamstring Curl (3x 8-12 reps)',
+                'Leg Press (Close Stance) (3x 12-15 reps)',
+                'Leg Extensions (3x 15-20 reps)',
+                'Seated Hip Abduction (3x 20-25 reps)',
+                'Standing Calf Raises (4x 15-20 reps)'
+            ]
+        }
+    }
+};
+
+// Custom message box functions
+function showMessageBox(message) {
+    const msgBox = qs('#message-box');
+    const msgText = qs('#message-text');
+    msgText.textContent = message;
+    msgBox.style.backgroundColor = '#f44336';
+    msgBox.style.display = 'flex';
+    setTimeout(hideMessageBox, 4000);
 }
 
-body {
-    font-family: 'Inter', system-ui, Helvetica, Arial, sans-serif;
-    background: var(--bg);
-    color: var(--text);
+function hideMessageBox() {
+    const msgBox = qs('#message-box');
+    msgBox.style.display = 'none';
 }
 
-h1 {
-    font-family: 'Dancing Script', cursive;
-    font-size: 2.2rem;
-    margin-top: 0;
-    color: var(--accent-dark);
+/* ---------- main functions ---------- */
+
+function renderDayButtons() {
+    dayButtonsContainer.innerHTML = '';
+    const days = workoutPrograms[currentProgramId].days;
+    
+    days.forEach((dayName, index) => {
+        const button = document.createElement('button');
+        button.classList.add('day-btn');
+        if (index === currentDayIndex) {
+            button.classList.add('active');
+        }
+        button.textContent = dayName;
+        button.dataset.dayIndex = index;
+        dayButtonsContainer.appendChild(button);
+
+        button.addEventListener('click', () => {
+            qsa('.day-btn').forEach(b => b.classList.remove('active'));
+            button.classList.add('active');
+            currentDayIndex = parseInt(button.dataset.dayIndex);
+            renderWorkoutPlan();
+        });
+    });
 }
 
-/* General card styling for main content area */
-.main-card {
-    max-width: 900px;
-    width: 100%;
-    background: #fff;
-    border-radius: 14px;
-    padding: 2rem 2.2rem;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, .08);
-    overflow: hidden;
-    position: relative;
-    margin: 0 auto;
+function renderWorkoutPlan() {
+    const currentProgram = workoutPrograms[currentProgramId];
+    const dayName = currentProgram.days[currentDayIndex];
+    const workoutTitle = currentProgram.plan[dayName];
+    const exercises = currentProgram.workouts[workoutTitle];
+    
+    let html = `<h4 class="text-xl font-bold text-gray-800 mb-4">${workoutTitle}</h4>`;
+    html += `<ul class="list-disc pl-5 space-y-2 text-gray-700">`;
+    exercises.forEach(exercise => {
+        html += `<li>${exercise}</li>`;
+    });
+    html += `</ul>`;
+    
+    workoutDisplay.innerHTML = html;
 }
 
-/* floating sparkles on card hover */
-.main-card:hover::before,
-.main-card:hover::after {
-    opacity: .25;
-    transform: translateY(-6px);
+function switchProgram(programId) {
+    currentProgramId = programId;
+    qsa('.program-selector-button').forEach(btn => btn.classList.remove('active'));
+    qs(`#select-${programId}`).classList.add('active');
+    renderDayButtons();
+    renderWorkoutPlan();
 }
 
-.main-card::before,
-.main-card::after {
-    content: '✨';
-    position: absolute;
-    font-size: 1.3rem;
-    opacity: 0;
-    transition: .6s;
-    pointer-events: none;
-}
+/* ---------- event listeners ---------- */
+document.addEventListener('DOMContentLoaded', () => {
+    // Program selector button listeners
+    selectPplBtn.addEventListener('click', () => switchProgram('ppl'));
+    selectMeganBtn.addEventListener('click', () => switchProgram('megan'));
 
-.main-card::before {
-    top: 10px;
-    left: 20px;
-}
+    // Message box close button listener
+    messageCloseBtn.addEventListener('click', hideMessageBox);
 
-.main-card::after {
-    bottom: 10px;
-    right: 20px;
-}
-
-/* Nav & sections */
-.nav-link {
-    transition: color .2s, box-shadow .2s;
-    position: relative;
-}
-.nav-link:hover {
-    color: var(--accent-dark);
-}
-.nav-link.active {
-    color: var(--accent);
-    font-weight: bold;
-}
-.nav-link.active::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background-color: var(--accent);
-    border-radius: 1px;
-}
-
-/* Day navigation buttons */
-.day-nav {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: .5rem;
-    margin-bottom: 1.5rem;
-}
-.day-btn {
-    background: #f0f0f0;
-    border: none;
-    padding: .5rem 1rem;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: .85rem;
-    font-weight: 500;
-    transition: background .2s, color .2s, box-shadow .2s;
-}
-.day-btn:hover {
-    background: #e5e5e5;
-}
-.day-btn.active {
-    background: var(--accent);
-    color: #fff;
-    box-shadow: 0 4px 12px rgba(157, 125, 255, .3);
-}
-
-/* Program selector buttons */
-.program-selector-button {
-    transition: background-color 0.3s, color 0.3s, transform 0.2s;
-    background-color: #f0f0f0;
-    color: #555;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-.program-selector-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-.program-selector-button.active {
-    background-color: var(--accent);
-    color: white;
-    box-shadow: 0 4px 12px rgba(157, 125, 255, 0.3);
-}
-
-/* Message box */
-#message-box {
-    display: none;
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #f44336; /* Red for errors */
-    color: white;
-    padding: 15px 25px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    font-weight: 500;
-    font-size: 1rem;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-}
-
-#message-close {
-    cursor: pointer;
-    font-size: 1.2rem;
-    line-height: 1;
-    color: rgba(255, 255, 255, 0.8);
-    transition: color 0.2s;
-}
-
-#message-close:hover {
-    color: white;
-}
+    // Initialize with the default program (PPL)
+    const today = new Date().getDay(); // 0 = Sunday, 1 = Monday
+    currentDayIndex = today === 0 ? 0 : today - 1; // 0-indexed for Mon-Sat array
+    switchProgram('ppl');
+});
