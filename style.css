@@ -7,13 +7,13 @@
 }
 
 body {
-    font-family: 'Inter', system-ui, Helvetica, Arial, sans-serif; /* Combined with Inter */
+    font-family: 'Inter', system-ui, Helvetica, Arial, sans-serif;
     background: var(--bg);
     color: var(--text);
 }
 
 h1 {
-    font-family: 'Dancing Script', cursive; /* User's preferred font */
+    font-family: 'Dancing Script', cursive;
     font-size: 2.2rem;
     margin-top: 0;
     color: var(--accent-dark);
@@ -21,7 +21,7 @@ h1 {
 
 /* General card styling for main content area */
 .main-card {
-    max-width: 900px; /* Increased max-width for more content */
+    max-width: 900px;
     width: 100%;
     background: #fff;
     border-radius: 14px;
@@ -29,7 +29,7 @@ h1 {
     box-shadow: 0 6px 18px rgba(0, 0, 0, .08);
     overflow: hidden;
     position: relative;
-    margin: 0 auto; /* Center the card */
+    margin: 0 auto;
 }
 
 /* floating sparkles on card hover */
@@ -44,328 +44,116 @@ h1 {
     content: '✨';
     position: absolute;
     font-size: 1.3rem;
-    top: 8px;
-    right: 14px;
     opacity: 0;
-    transition: .4s;
+    transition: .6s;
+    pointer-events: none;
 }
 
-/* cute corner */
-.cute-box {
+.main-card::before {
+    top: 10px;
+    left: 20px;
+}
+
+.main-card::after {
+    bottom: 10px;
+    right: 20px;
+}
+
+/* Nav & sections */
+.nav-link {
+    transition: color .2s, box-shadow .2s;
     position: relative;
-    text-align: center;
-    margin: 1rem 0 1.7rem;
 }
-
-.cute-box img {
-    width: 140px;
-    height: 140px;
-    object-fit: cover;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, .12);
-    display: block; /* Make image a block element */
-    margin: 0 auto; /* Center the block element */
+.nav-link:hover {
+    color: var(--accent-dark);
 }
-
-.cute-box p {
-    margin: .55rem 0 0;
-    font-weight: 700;
+.nav-link.active {
     color: var(--accent);
+    font-weight: bold;
 }
-
-#cute-refresh {
+.nav-link.active::after {
+    content: '';
     position: absolute;
-    top: 4px;
-    right: 4px;
-    width: 26px;
-    height: 26px;
-    border: none;
-    border-radius: 50%;
-    background: #fff;
-    cursor: pointer;
-    font-size: 1rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, .15);
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--accent);
+    border-radius: 1px;
 }
 
-/* day buttons for workout plan */
-.day-button-container {
+/* Day navigation buttons */
+.day-nav {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
-    gap: .55rem;
-    margin-bottom: 1.1rem;
-    justify-content: center; /* Center day buttons */
+    gap: .5rem;
+    margin-bottom: 1.5rem;
 }
-
-.day-button {
-    padding: .34rem .95rem;
-    border: 2px solid var(--accent);
-    background: #fff;
-    color: var(--accent);
-    border-radius: 999px;
+.day-btn {
+    background: #f0f0f0;
+    border: none;
+    padding: .5rem 1rem;
+    border-radius: 20px;
     cursor: pointer;
-    transition: .2s;
+    font-size: .85rem;
+    font-weight: 500;
+    transition: background .2s, color .2s, box-shadow .2s;
 }
-
-.day-button.active,
-.day-button:hover {
+.day-btn:hover {
+    background: #e5e5e5;
+}
+.day-btn.active {
     background: var(--accent);
     color: #fff;
-    transform: scale(1.06) translateY(-1px);
+    box-shadow: 0 4px 12px rgba(157, 125, 255, .3);
 }
 
 /* Program selector buttons */
 .program-selector-button {
-    transition: all 0.3s ease;
-    background-color: #e0e7ff; /* Light blue for inactive */
-    color: #1e40af; /* Darker blue for inactive */
-}
-
-.program-selector-button.active {
-    background-color: #1e40af; /* Darker blue for active */
-    color: #ffffff;
-    transform: translateY(-4px);
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-}
-
-/* Accordion styling (from previous version, adjusted for theme) */
-.accordion-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
-}
-
-.accordion-button svg {
-    transition: transform 0.3s ease;
-}
-
-/* Calorie Tracker specific styling */
-.goal-row {
-    display: flex;
-    align-items: center;
-    gap: .6rem;
-    margin-bottom: 1.1rem;
-    flex-wrap: wrap; /* Allow wrapping on small screens */
-}
-
-.goal-row input {
-    width: 5rem;
-    padding: .28rem .55rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.goal-row button {
-    padding: .28rem .9rem;
-    background: var(--accent);
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: .2s;
-}
-
-.goal-row button:hover {
-    background: var(--accent-dark);
-}
-
-.macro-row {
-    display: flex;
-    justify-content: space-between;
-    margin: .6rem 0;
-    font-weight: 600;
-}
-
-.progress-bg {
-    width: 100%;
-    height: 10px;
-    background: #dedede;
-    border-radius: 5px;
-    margin-bottom: 1.1rem;
-}
-
-#progress-bar {
-    height: 100%;
-    width: 0%;
-    background: var(--accent);
-    border-radius: 5px;
-    transition: width .3s;
-}
-
-.macro-summary {
-    text-align: center;
-    font-size: .9rem;
-    font-weight: 600;
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+    background-color: #f0f0f0;
     color: #555;
-    margin: -.25rem 0 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.program-selector-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.program-selector-button.active {
+    background-color: var(--accent);
+    color: white;
+    box-shadow: 0 4px 12px rgba(157, 125, 255, 0.3);
 }
 
-.food-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: .55rem;
-    margin: .6rem 0 1.2rem;
-}
-
-.food-row input[type=text] {
-    flex: 1;
-    padding: .32rem .65rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.food-row button {
-    padding: .32rem .9rem;
-    background: var(--accent);
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: .2s;
-}
-
-.food-row button:hover {
-    background: var(--accent-dark);
-}
-
-.manual-switch {
-    display: flex;
-    align-items: center;
-    font-size: .75rem;
-    gap: .3rem;
-    cursor: pointer;
-}
-
-.manual-fields {
-    display: none;
-    gap: .3rem;
-    align-items: center;
-}
-
-.manual-fields input {
-    width: 70px;
-    padding: .25rem .5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.manual-on #manual-fields {
-    display: flex;
-}
-
-#food-log {
-    list-style: none;
-    padding: 0;
-}
-
-#food-log li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: .3rem 0;
-    border-bottom: 1px solid #f0f0f0;
-}
-
-.delete-btn {
-    border: none;
-    background: none;
-    color: #e74c3c;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: .2s;
-}
-
-.delete-btn:hover {
-    transform: scale(1.25);
-}
-
-h2.section-title { /* For calorie tracker h2 */
-    color: var(--accent-dark);
-    font-size: 1.25rem;
-    margin: 0 0 .4rem;
-}
-
-/* Message box for alerts */
+/* Message box */
 #message-box {
+    display: none;
     position: fixed;
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #f44336; /* Red */
+    background-color: #f44336; /* Red for errors */
     color: white;
-    padding: 15px;
-    border-radius: 5px;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    display: none; /* Hidden by default */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    animation: fadeInOut 4s forwards;
-}
-
-@keyframes fadeInOut {
-    0% { opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { opacity: 0; }
-}
-
-/* Modal for LLM responses */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1001; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
-    justify-content: center;
+    font-weight: 500;
+    font-size: 1rem;
+    justify-content: space-between;
     align-items: center;
+    gap: 20px;
 }
 
-.modal-content {
-    background-color: #fefefe;
-    margin: auto;
-    padding: 20px;
-    border-radius: 10px;
-    width: 80%;
-    max-width: 600px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    position: relative;
-    animation: slideIn 0.3s ease-out;
-}
-
-@keyframes slideIn {
-    from { transform: translateY(-50px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-}
-
-.close-button {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+#message-close {
     cursor: pointer;
+    font-size: 1.2rem;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.8);
+    transition: color 0.2s;
 }
 
-.close-button:hover,
-.close-button:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.loading-spinner {
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid var(--accent);
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    animation: spin 1s linear infinite;
-    margin: 20px auto;
-    display: block;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+#message-close:hover {
+    color: white;
 }
